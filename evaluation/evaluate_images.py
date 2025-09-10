@@ -31,6 +31,7 @@ def parse_args():
     parser.add_argument("--outfile", type=str, default="results.jsonl")
     parser.add_argument("--model-config", type=str, default=None)
     parser.add_argument("--model-path", type=str, default="./")
+    parser.add_argument("--samples-dir", type=str, default="samples")
     # Other arguments
     parser.add_argument("--options", nargs="*", type=str, default=[])
     args = parser.parse_args()
@@ -267,8 +268,8 @@ def main(args):
         with open(os.path.join(folderpath, "metadata.jsonl")) as fp:
             metadata = json.load(fp)
         # Evaluate each image
-        for imagename in os.listdir(os.path.join(folderpath, "samples")):
-            imagepath = os.path.join(folderpath, "samples", imagename)
+        for imagename in os.listdir(os.path.join(folderpath, args.samples_dir)):
+            imagepath = os.path.join(folderpath, args.samples_dir, imagename)
             if not os.path.isfile(imagepath) or not re.match(r"\d+\.png", imagename):
                 continue
             result = evaluate_image(imagepath, metadata)
